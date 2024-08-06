@@ -1,0 +1,263 @@
+﻿@page "/"
+@inject IJSRuntime JS
+@inject ILocalStorageService LocalStorage
+
+<PageTitle>Task</PageTitle>
+
+<h1 class="todo-title">
+    ToDo List
+    <span></span>
+</h1>
+
+<div class="right-button">
+    <button type="button" class="btn btn-primary" @onclick="() => ShowModal(false)">
+        Add Task
+    </button>
+    <div>
+      @* <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        Sort By
+      </button>
+      <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#" @onclick="() => SortTasks("Action", "asc")">Action</a></li>
+          <li><a class="dropdown-item" href="#" @onclick="() => SortTasks("Another action". )">Another action</a></li>
+          <li><a class="dropdown-item" href="#" @onclick="() => SortTasks("Something else here")">Something else here</a></li>
+      </ul> *@
+      <button type="button" class="btn btn-primary" @onclick="ClearCompleted">
+          Clear Completed
+      </button>
+    </div>
+</div>
+
+<div class="cards">
+  @foreach(var task in tasks){
+    <div class="card @task.Priority">
+      <h2 @onclick="() => TogglePriority(task.Id)">@task.Priority</h2>
+      <h1 class="@((task.IsCompleted ? "line-through" : ""))">@task.Title?.ToUpper()</h1>
+      <p class="@((task.IsCompleted ? "line-through" : ""))">@task.Description</p>
+      <div class="others">
+        <div class="date">
+          <p>@task.DateAdded</p>
+        </div>
+        <div class="icons">
+          <i class="bi bi-check check-icon" @onclick="() => ToggleCompleted(task.Id, !task.IsCompleted)"></i>
+          <i class="bi bi-pencil edit-icon" @onclick="() => ShowModal(true, task)"></i>
+          <i class="bi bi-trash delete-icon" @onclick="() => RemoveTask(task.Id)"></i>
+        </div>
+      </div>
+    </div>
+  }
+</div>
+
+@if (showModal)
+{
+    <div class="modal-contain">
+        <div class="custom-overlay" @onclick="HideModalFunc"></div>
+        <div class="custom-modal">
+            <div class="custom-modal-header p-3">
+                <h1>@(isEditMode ? "Edit Task" : "Add New Task")</h1>
+                <button type="button" class="btn-close" @onclick="HideModalFunc" aria-label="Close"></button>
+            </div>
+            <div class="custom-modal-body p-3">
+                <div class="mb-3">
+                    <label for="Title" class="form-label m-0">Title</label>
+                    <p class="error">@TitleError</p>
+                    <input type="text" class="form-control" id="Title" @bind="currentTask.Title" placeholder="Fix error #580">
+                </div>
+                <div class="mb-3">
+                    <label for="taskDescription" class="form-label m-0">Description</label>
+                    <p class="error">@DescriptionError</p>
+                    <textarea class="form-control" @bind="currentTask.Description" id="taskDescription" rows="3" placeholder="Short description"></textarea>
+                </div>
+                <label for="priority" class="form-label m-0">Priority</label>
+                <p class="error">@PriorityError</p>
+                <input class="form-control" list="taskPriority" id="priority" @bind="currentTask.Priority" placeholder="High, Medium, Low">
+                <datalist id="taskPriority">
+                    <option value="High"/>
+                    <option value="Medium"/>
+                    <option value="Low"/>
+                </datalist>
+            </div>
+            <div class="custom-modal-footer p-3">
+                <button class="btn btn-primary" @onclick="() => SaveTask()">
+                    @(isEditMode ? "Update Task" : "Add Task")
+                </button>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private bool showModal { get; set; } = false;
+    private bool isEditMode { get; set; } = false;
+    private string TitleError {get;set;} = "";
+    private string DescriptionError {get;set;} = "";
+    private string PriorityError {get;set;} = "";
+    private List<TodoModel> tasks { get; set; } = new List<TodoModel>{};
+    private TodoModel currentTask { get; set; } = new TodoModel();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFromLocalStorage();
+    }
+    private async Task SaveTask()
+    {
+        bool hasPassed = true;
+        if (string.IsNullOrWhiteSpace(currentTask.Title))
+        {
+            hasPassed = false;
+            TitleError = "Please enter title";
+        }
+        else
+        {
+            TitleError = string.Empty;
+        }
+        if (string.IsNullOrWhiteSpace(currentTask.Description))
+        {
+            hasPassed = false;
+            DescriptionError = "Please enter description";
+        }
+        else
+        {
+            DescriptionError = string.Empty;
+        }
+        if (currentTask.Priority != "High" && currentTask.Priority != "Medium" && currentTask.Priority != "Low")
+        {
+            hasPassed = false;
+            PriorityError = "Please enter High, Medium or Low";
+        }
+        else
+        {
+            PriorityError = string.Empty;
+        }
+        if (hasPassed)
+        {
+            if (isEditMode)
+            {
+                var task = tasks.FirstOrDefault(t => t.Id == currentTask.Id);
+                if (task != null)
+                {
+                    task.Title = currentTask.Title;
+                    task.Description = currentTask.Description;
+                    task.Priority = currentTask.Priority;
+                }
+            }
+            else
+            {
+                int newId = tasks.Count == 0 ? 1 : tasks.Max(t => t.Id) + 1;
+                currentTask.Id = newId;
+                tasks.Add(currentTask);
+            }
+            currentTask = new TodoModel();
+            await SaveToLocalStorage();
+            HideModalFunc();
+        }
+    }
+
+    private async Task SaveToLocalStorage()
+    {
+        @* await JS.InvokeVoidAsync("localStorage.setItem", "tasks", tasks);  *@
+        await LocalStorage.SetItemAsync("tasks", tasks);
+    }
+    private async Task GetFromLocalStorage()
+    {
+        var localStorageTasks = await LocalStorage.GetItemAsync<List<TodoModel>>("tasks");
+        if(localStorageTasks != null)
+        {
+            tasks = localStorageTasks;
+        }
+    }
+  
+    private async Task TogglePriority(int id)
+    {
+        var task = tasks.FirstOrDefault(t => t.Id == id);
+        if (task != null)
+        {
+            switch (task.Priority)
+            {
+                case "High":
+                    task.Priority = "Medium";
+                    break;
+                case "Medium":
+                    task.Priority = "Low";
+                    break;
+                case "Low":
+                    task.Priority = "High";
+                    break;
+            }
+        }
+        await SaveToLocalStorage();
+    }
+
+    private async Task ClearCompleted()
+    {
+        tasks.RemoveAll(t => t.IsCompleted);
+        await SaveToLocalStorage();
+    }
+    private async Task SortTasks(string sortBy, string sortOrder)
+    {
+        switch (sortBy)
+        {
+            case "DateAdded":
+                tasks = sortOrder == "asc"
+                    ? tasks.OrderBy(t => t.DateAdded).ToList()
+                    : tasks.OrderByDescending(t => t.DateAdded).ToList();
+                break;
+            case "Priority":
+                tasks = sortOrder == "asc"
+                    ? tasks.OrderBy(t => t.Priority).ToList()
+                    : tasks.OrderByDescending(t => t.Priority).ToList();
+                break;
+            case "IsCompleted":
+                tasks = sortOrder == "asc"
+                    ? tasks.OrderBy(t => t.IsCompleted).ToList()
+                    : tasks.OrderByDescending(t => t.IsCompleted).ToList();
+                break;
+        }
+        await SaveToLocalStorage();
+    }
+
+    private async Task RemoveTask(int id)
+    {
+        tasks.RemoveAll(t => t.Id == id);
+        await SaveToLocalStorage();
+    }
+
+    private void ShowModal(bool editMode, TodoModel? task = null)
+    {
+        isEditMode = editMode;
+        if (editMode && task != null)
+        {
+            currentTask = new TodoModel
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                Priority = task.Priority,
+                IsCompleted = task.IsCompleted
+            };
+        }
+        else
+        {
+            currentTask = new TodoModel();
+        }
+        showModal = true;
+    }
+
+    private void HideModalFunc()
+    {
+        TitleError = string.Empty;
+        DescriptionError = string.Empty;
+        PriorityError = string.Empty;
+        showModal = false;
+    }
+
+    private async Task ToggleCompleted(int id, bool isCompleted)
+    {
+        var task = tasks.FirstOrDefault(t => t.Id == id);
+        if(task != null)
+        {
+            task.IsCompleted = isCompleted;
+        }
+        await SaveToLocalStorage();
+    }
+}
