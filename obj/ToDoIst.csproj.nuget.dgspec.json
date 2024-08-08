@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Gaa\\Documents\\C#\\ToDoIst\\ToDoIst\\ToDoIst.csproj": {}
+    "C:\\Users\\kevin\\Desktop\\Task Manager\\ToDoIst.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Gaa\\Documents\\C#\\ToDoIst\\ToDoIst\\ToDoIst.csproj": {
+    "C:\\Users\\kevin\\Desktop\\Task Manager\\ToDoIst.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Gaa\\Documents\\C#\\ToDoIst\\ToDoIst\\ToDoIst.csproj",
+        "projectUniqueName": "C:\\Users\\kevin\\Desktop\\Task Manager\\ToDoIst.csproj",
         "projectName": "ToDoIst",
-        "projectPath": "C:\\Users\\Gaa\\Documents\\C#\\ToDoIst\\ToDoIst\\ToDoIst.csproj",
-        "packagesPath": "C:\\Users\\Gaa\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Gaa\\Documents\\C#\\ToDoIst\\ToDoIst\\obj\\",
+        "projectPath": "C:\\Users\\kevin\\Desktop\\Task Manager\\ToDoIst.csproj",
+        "packagesPath": "C:\\Users\\kevin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\kevin\\Desktop\\Task Manager\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Gaa\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\kevin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {

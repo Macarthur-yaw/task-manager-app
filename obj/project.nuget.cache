@@ -1,40 +1,43 @@
 {
   "version": 2,
-  "dgSpecHash": "czXj1XfFkGo=",
-  "success": true,
-  "projectFilePath": "C:\\Users\\Gaa\\Documents\\C#\\ToDoIst\\ToDoIst\\ToDoIst.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Gaa\\.nuget\\packages\\blazored.localstorage\\4.5.0\\blazored.localstorage.4.5.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.aspnetcore.authorization\\8.0.6\\microsoft.aspnetcore.authorization.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.aspnetcore.components\\8.0.6\\microsoft.aspnetcore.components.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\8.0.6\\microsoft.aspnetcore.components.analyzers.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.aspnetcore.components.forms\\8.0.6\\microsoft.aspnetcore.components.forms.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.aspnetcore.components.web\\8.0.6\\microsoft.aspnetcore.components.web.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly\\8.0.6\\microsoft.aspnetcore.components.webassembly.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.aspnetcore.components.webassembly.devserver\\8.0.6\\microsoft.aspnetcore.components.webassembly.devserver.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.aspnetcore.metadata\\8.0.6\\microsoft.aspnetcore.metadata.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.configuration\\8.0.0\\microsoft.extensions.configuration.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\8.0.0\\microsoft.extensions.configuration.abstractions.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.configuration.binder\\8.0.1\\microsoft.extensions.configuration.binder.8.0.1.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.configuration.fileextensions\\8.0.0\\microsoft.extensions.configuration.fileextensions.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.configuration.json\\8.0.0\\microsoft.extensions.configuration.json.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0\\microsoft.extensions.dependencyinjection.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.1\\microsoft.extensions.dependencyinjection.abstractions.8.0.1.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.fileproviders.abstractions\\8.0.0\\microsoft.extensions.fileproviders.abstractions.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.fileproviders.physical\\8.0.0\\microsoft.extensions.fileproviders.physical.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.filesystemglobbing\\8.0.0\\microsoft.extensions.filesystemglobbing.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.logging\\8.0.0\\microsoft.extensions.logging.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.1\\microsoft.extensions.logging.abstractions.8.0.1.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.options\\8.0.2\\microsoft.extensions.options.8.0.2.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0\\microsoft.extensions.primitives.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.jsinterop\\8.0.6\\microsoft.jsinterop.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.jsinterop.webassembly\\8.0.6\\microsoft.jsinterop.webassembly.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.net.illink.tasks\\8.0.6\\microsoft.net.illink.tasks.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.net.sdk.webassembly.pack\\8.0.6\\microsoft.net.sdk.webassembly.pack.8.0.6.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\system.io.pipelines\\8.0.0\\system.io.pipelines.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\system.text.encodings.web\\8.0.0\\system.text.encodings.web.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\system.text.json\\8.0.0\\system.text.json.8.0.0.nupkg.sha512",
-    "C:\\Users\\Gaa\\.nuget\\packages\\microsoft.netcore.app.runtime.mono.browser-wasm\\8.0.6\\microsoft.netcore.app.runtime.mono.browser-wasm.8.0.6.nupkg.sha512"
-  ],
-  "logs": []
+  "dgSpecHash": "njBdtI8Pt6w=",
+  "success": false,
+  "projectFilePath": "C:\\Users\\kevin\\Desktop\\Task Manager\\ToDoIst.csproj",
+  "expectedPackageFiles": [],
+  "logs": [
+    {
+      "code": "NU1301",
+      "level": "Error",
+      "message": "Failed to retrieve information about 'Blazored.LocalStorage' from remote source 'https://api.nuget.org/v3-flatcontainer/blazored.localstorage/index.json'.",
+      "libraryId": "Blazored.LocalStorage"
+    },
+    {
+      "code": "Undefined",
+      "level": "Error",
+      "message": "Failed to download package 'Microsoft.NET.ILLink.Tasks.8.0.6' from 'https://api.nuget.org/v3-flatcontainer/microsoft.net.illink.tasks/8.0.6/microsoft.net.illink.tasks.8.0.6.nupkg'.\r\nNo such host is known. (api.nuget.org:443)\r\n  No such host is known."
+    },
+    {
+      "code": "Undefined",
+      "level": "Error",
+      "message": "Failed to download package 'Microsoft.AspNetCore.Components.WebAssembly.DevServer.8.0.6' from 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnetcore.components.webassembly.devserver/8.0.6/microsoft.aspnetcore.components.webassembly.devserver.8.0.6.nupkg'.\r\nNo such host is known. (api.nuget.org:443)\r\n  No such host is known."
+    },
+    {
+      "code": "NU1301",
+      "level": "Error",
+      "message": "Failed to retrieve information about 'Microsoft.AspNetCore.Components.Forms' from remote source 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnetcore.components.forms/index.json'.",
+      "libraryId": "Microsoft.AspNetCore.Components.Forms"
+    },
+    {
+      "code": "NU1301",
+      "level": "Error",
+      "message": "Failed to retrieve information about 'Microsoft.Extensions.Primitives' from remote source 'https://api.nuget.org/v3-flatcontainer/microsoft.extensions.primitives/index.json'.",
+      "libraryId": "Microsoft.Extensions.Primitives"
+    },
+    {
+      "code": "NU1301",
+      "level": "Error",
+      "message": "Failed to retrieve information about 'Microsoft.AspNetCore.Components' from remote source 'https://api.nuget.org/v3-flatcontainer/microsoft.aspnetcore.components/index.json'.",
+      "libraryId": "Microsoft.AspNetCore.Components"
+    }
+  ]
 }

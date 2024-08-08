@@ -1,53 +1,80 @@
 ﻿@page "/"
-@inject IJSRuntime JS
 @inject ILocalStorageService LocalStorage
 
 <PageTitle>Task</PageTitle>
 
+
+@* title *@
 <h1 class="todo-title">
-    ToDo List
-    <span></span>
+    Task Manager
 </h1>
 
 <div class="right-button">
-    <button type="button" class="btn btn-primary" @onclick="() => ShowModal(false)">
+    @* add task button *@
+    <button type="button" class="btn-white" @onclick="() => ShowModal(false)">
         Add Task
     </button>
     <div>
-      @* <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-        Sort By
-      </button>
-      <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#" @onclick="() => SortTasks("Action", "asc")">Action</a></li>
-          <li><a class="dropdown-item" href="#" @onclick="() => SortTasks("Another action". )">Another action</a></li>
-          <li><a class="dropdown-item" href="#" @onclick="() => SortTasks("Something else here")">Something else here</a></li>
-      </ul> *@
-      <button type="button" class="btn btn-primary" @onclick="ClearCompleted">
-          Clear Completed
-      </button>
+        <div class="left-buttons">
+            @* dropdown button on right to organize tasks *@
+            <div class="dropdown">
+                <button class="btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sort By
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item d-flex justify-content-between align-items-center">
+                        <p @onclick='() => SortTasks("DateAdded")' class="me-3">Date Added</p>
+                        <div class="drop-buttons">
+                            <button class="btn btn-outline-secondary" @onclick='() => SortTasks("DateAdded")'><i class="bi bi-arrow-down"></i></button>
+                            <button class="btn btn-outline-secondary" @onclick='() => SortTasks("DateAdded", "asc")'><i class="bi bi-arrow-up"></i></button>
+                        </div>
+                    </li>
+                    <li class="dropdown-item d-flex justify-content-between align-items-center">
+                        <p @onclick='() => SortTasks("Priority")' class="me-3">Priority</p>
+                        <div class="drop-buttons">
+                            <button class="btn btn-outline-secondary" @onclick='() => SortTasks("Priority")'><i class="bi bi-arrow-down"></i></button>
+                            <button class="btn btn-outline-secondary" @onclick='() => SortTasks("Priority", "asc")'><i class="bi bi-arrow-up"></i></button>
+                        </div>
+                    </li>
+                    <li class="dropdown-item d-flex justify-content-between align-items-center">
+                        <p @onclick='() => SortTasks("IsCompleted")' class="me-3">Completed</p>
+                        <div class="drop-buttons">
+                            <button class="btn btn-outline-secondary" @onclick='() => SortTasks("IsCompleted")'><i class="bi bi-arrow-down"></i></button>
+                            <button class="btn btn-outline-secondary" @onclick='() => SortTasks("IsCompleted", "asc")'><i class="bi bi-arrow-up"></i></button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            @* clear completed buttons *@
+            <button type="button" class="btn-white" @onclick="ClearCompleted">
+                Clear Completed
+            </button>
+        </div>
     </div>
 </div>
 
-<div class="cards">
-  @foreach(var task in tasks){
-    <div class="card @task.Priority">
-      <h2 @onclick="() => TogglePriority(task.Id)">@task.Priority</h2>
-      <h1 class="@((task.IsCompleted ? "line-through" : ""))">@task.Title?.ToUpper()</h1>
-      <p class="@((task.IsCompleted ? "line-through" : ""))">@task.Description</p>
-      <div class="others">
-        <div class="date">
-          <p>@task.DateAdded</p>
+@* render task list *@
+<div class="all-tasks">
+    @foreach(var task in tasks){
+        <div class="task-list">
+            <p class="@((task.IsCompleted ? "line-through" : ""))">@task.Title?.ToUpper()</p>
+            <p class="@((task.IsCompleted ? "line-through" : ""))">@task.Description</p>
+            <p>@task.Deadline</p>
+            <p
+            class="@task.Priority priority-btn"
+            @onclick="() => TogglePriority(task.Id)">
+                @task.Priority
+            </p>
+            <div class="btn-list">
+                <button class="btn btn-success"><i class="bi bi-check check-icon" @onclick="() => ToggleCompleted(task.Id, !task.IsCompleted)"></i></button>
+                <button class="btn btn-warning"><i class="bi bi-pencil edit-icon" @onclick="() => ShowModal(true, task)"></i></button>
+                <button class="btn btn-danger"><i class="bi bi-trash delete-icon" @onclick="() => RemoveTask(task.Id)"></i></button>
+            </div>
         </div>
-        <div class="icons">
-          <i class="bi bi-check check-icon" @onclick="() => ToggleCompleted(task.Id, !task.IsCompleted)"></i>
-          <i class="bi bi-pencil edit-icon" @onclick="() => ShowModal(true, task)"></i>
-          <i class="bi bi-trash delete-icon" @onclick="() => RemoveTask(task.Id)"></i>
-        </div>
-      </div>
-    </div>
-  }
+    }
 </div>
 
+@* modal for adding and editing tasks *@
 @if (showModal)
 {
     <div class="modal-contain">
@@ -67,6 +94,11 @@
                     <label for="taskDescription" class="form-label m-0">Description</label>
                     <p class="error">@DescriptionError</p>
                     <textarea class="form-control" @bind="currentTask.Description" id="taskDescription" rows="3" placeholder="Short description"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="Deadline" class="form-label m-0">Deadline</label>
+                    <p class="error">@DeadlineError</p>
+                    <input type="datetime-local" min="@minDateTime" class="form-control" id="Deadline" @bind="currentTask.Deadline" placeholder="Fix error #580"/>
                 </div>
                 <label for="priority" class="form-label m-0">Priority</label>
                 <p class="error">@PriorityError</p>
@@ -91,13 +123,16 @@
     private bool isEditMode { get; set; } = false;
     private string TitleError {get;set;} = "";
     private string DescriptionError {get;set;} = "";
+    private string DeadlineError {get;set;} = "";
     private string PriorityError {get;set;} = "";
     private List<TodoModel> tasks { get; set; } = new List<TodoModel>{};
     private TodoModel currentTask { get; set; } = new TodoModel();
-
+    private string? minDateTime;
     protected override async Task OnInitializedAsync()
     {
         await GetFromLocalStorage();
+        DateTime now = DateTime.Now;
+        minDateTime = now.ToString("yyyy-MM-ddTHH:mm");
     }
     private async Task SaveTask()
     {
@@ -129,6 +164,15 @@
         {
             PriorityError = string.Empty;
         }
+        if (currentTask.Deadline == null)
+        {
+            hasPassed = false;
+            DeadlineError = "Please enter Date and Time for Deadline";
+        }
+        else
+        {
+            DeadlineError = string.Empty;
+        }
         if (hasPassed)
         {
             if (isEditMode)
@@ -155,7 +199,6 @@
 
     private async Task SaveToLocalStorage()
     {
-        @* await JS.InvokeVoidAsync("localStorage.setItem", "tasks", tasks);  *@
         await LocalStorage.SetItemAsync("tasks", tasks);
     }
     private async Task GetFromLocalStorage()
@@ -193,7 +236,7 @@
         tasks.RemoveAll(t => t.IsCompleted);
         await SaveToLocalStorage();
     }
-    private async Task SortTasks(string sortBy, string sortOrder)
+    private async Task SortTasks(string sortBy, string sortOrder = "desc")
     {
         switch (sortBy)
         {
@@ -247,6 +290,7 @@
     {
         TitleError = string.Empty;
         DescriptionError = string.Empty;
+        DeadlineError = string.Empty;
         PriorityError = string.Empty;
         showModal = false;
     }
